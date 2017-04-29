@@ -1,0 +1,8 @@
+node_modules
+
+# lambda .zip file
+deploy/*.zip
+
+# Don't save your skill ID in version control, just save the templates
+lambdaTests/*
+!lambdaTests/*template*

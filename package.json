@@ -1,0 +1,13 @@
+{
+  "name": "hello",
+  "version": "0.0.1",
+  "main": "index.js",
+  "dependencies": {
+    "alexa-app": "*",
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-zip": "^4.0.0",
+    "gulp-clean": "^0.3.2"
+  }
+}

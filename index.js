@@ -1,25 +1,103 @@
 var alexa = require('alexa-app');
+var http = require('http');
 
 // Create a skill
+var iss = new alexa.app('iss');
 
-var hello = new alexa.app('hello');
+function issLocation(req, res) {
+	var options = {
+		hostname: 'api.open-notify.org',
+		path: '/iss-now.json',
+		method: 'GET'
+	};
 
-// Default intent
-hello.launch((req, res) => {
-	res.say('Ask me to say hi!');
-
-	// keep session open
-	// continue to listen for interacton, leave stream open
-	res.shouldEndSession(true);
-});
-
-var intentOpts = {
-	"slots": {},
-	"utterances": [ "{to |} {say|speak|tell me} {hi|hello|howdy|hithere|hiya|hiya|hey|hay|heya}" ]
+	return new Promise((resolve, reject) => {
+		const request = http.request(options, (res) => {
+			var data = '';	
+			res
+				.on('data', (chunk) => data += chunk)
+				.on('end', () => resolve(data));
+		});
+		request.on('error', (err) => reject({ message: err }));
+		request.end();
+	})
+	.then((data) => {
+		data = JSON.parse(data);
+		var content = 'The ISS is at longitude ' + data.iss_position.longitude +
+			' and lattitude ' + data.iss_position.latitude;
+		res.say(content);
+	})
+	.catch((reason) => res.say('Alexa App Error: ' + reason.message));
 };
 
-// Create an intent called hello
-hello.intent('hello', intentOpts, (req, res) => res.say('WiTNY!').shouldEndSession(false));
+function issLat(req, res) {
+	var options = {
+		hostname: 'api.open-notify.org',
+		path: '/iss-now.json',
+		method: 'GET'
+	};
+
+	return new Promise((resolve, reject) => {
+		const request = http.request(options, (res) => {
+			var data = '';	
+			res
+				.on('data', (chunk) => data += chunk)
+				.on('end', () => resolve(data));
+		});
+		request.on('error', (err) => reject({ message: err }));
+		request.end();
+	})
+	.then((data) => {
+		data = JSON.parse(data);
+		var content = 'ISS latitude is ' + data.iss_position.latitude;
+		res.say(content);
+	})
+	.catch((reason) => res.say('Alexa App Error: ' + reason.message));
+};
+
+function issLong(req, res) {
+	var options = {
+		hostname: 'api.open-notify.org',
+		path: '/iss-now.json',
+		method: 'GET'
+	};
+
+	return new Promise((resolve, reject) => {
+		const request = http.request(options, (res) => {
+			var data = '';	
+			res
+				.on('data', (chunk) => data += chunk)
+				.on('end', () => resolve(data));
+		});
+		request.on('error', (err) => reject({ message: err }));
+		request.end();
+	})
+	.then((data) => {
+		data = JSON.parse(data);
+		var content = 'ISS longitude is ' + data.iss_position.longitude;
+		res.say(content);
+	})
+	.catch((reason) => res.say('Alexa App Error: ' + reason.message));
+};
+
+// Default intent
+iss.launch(issLocation);
+
+var latOpts = {
+	"slots": {},
+	"utterances": [ "latitude" ]
+};
+
+iss.intent('latitude', latOpts, issLat);
+
+var longOpts = {
+	"slots": {},
+	"utterances": [ "longitude" ]
+};
+
+iss.intent('longitude', longOpts, issLong);
 
 // connect the alexa-app to AWS Lambda
-exports.handler = hello.lambda();
+exports.handler = iss.lambda();
+// develop locally in an the alexa-app-server
+// module.exports = iss;

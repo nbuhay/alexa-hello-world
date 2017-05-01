@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+
+# lambda .zip file
+deploy/*.zip
+
+# Don't save your skill ID in version control, just save the templates
+lambdaTests/*
+!lambdaTests/*template*
+
+# Don't save api creds in version control
+credentials.json

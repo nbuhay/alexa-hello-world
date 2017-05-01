@@ -1,0 +1,16 @@
+{
+  "intents": [
+    {
+      "intent": "pokeapi"
+    },
+    {
+      "intent": "nasa"
+    },
+    {
+      "intent": "discogs"
+    },
+    {
+      "intent": "spotify"
+    }
+  ]
+}

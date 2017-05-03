@@ -1,17 +1,12 @@
 var alexa = require('alexa-app');
 
 // Create a skill
-
 var hello = new alexa.app('hello');
 
 // Default intent
-hello.launch((req, res) => {
-	res.say('Ask me to say hi!');
-
-	// keep session open
-	// continue to listen for interacton, leave stream open
-	res.shouldEndSession(true);
-});
+//   keep session open
+//   continue to listen for interacton, leave stream open
+hello.launch((req, res) => res.say('Testing Cornell Tech connectivity.  Ask me to say hi!').shouldEndSession(false));
 
 var intentOpts = {
 	"slots": {},
@@ -19,7 +14,7 @@ var intentOpts = {
 };
 
 // Create an intent called hello
-hello.intent('hello', intentOpts, (req, res) => res.say('WiTNY!').shouldEndSession(false));
+hello.intent('hello', intentOpts, (req, res) => res.say('Build-a-Thon connectivity test succeeded!  Nice job!'));
 
 // connect the alexa-app to AWS Lambda
 exports.handler = hello.lambda();
